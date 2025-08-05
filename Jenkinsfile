@@ -29,15 +29,18 @@ pipeline {
 
     post {
         success {
-            mail to: rushidon3389@gmail.com,
-                 subject: "✅ CI/CD Success: ${env.JOB_NAME}",
-                 body: "The pipeline completed successfully!"
+            mail(
+                to: 'rushidon3389@gmail.com',
+                subject: "✅ CI/CD Success: ${env.JOB_NAME}",
+                body: "The pipeline completed successfully!"
+            )
         }
         failure {
-            mail to: rushidon3389@gmail.com,
-                 subject: "❌ CI/CD Failed: ${env.JOB_NAME}",
-                 body: "Check Jenkins logs for errors."
+            mail(
+                to: 'rushidon3389@gmail.com',
+                subject: "❌ CI/CD Failed: ${env.JOB_NAME}",
+                body: "Check Jenkins logs for errors."
+            )
         }
     }
 }
-
