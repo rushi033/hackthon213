@@ -1,14 +1,10 @@
 pipeline {
     agent { label 'docker-agent' }
 
-    environment {
-        COMPOSE_PROJECT_NAME = 'flaskapp'
-    }
-
     stages {
-        stage('Clone Repository') {
+        stage('Clone') {
             steps {
-                git 'https://github.com/yourusername/flask-cicd.git'
+                git 'https://github.com/rushi033/hackthon213.git'
             }
         }
 
@@ -18,15 +14,14 @@ pipeline {
             }
         }
 
-        stage('Deploy App') {
+        stage('Deploy Containers') {
             steps {
                 sh 'docker-compose up -d'
             }
         }
 
-        stage('Health Check') {
+        stage('Test') {
             steps {
-                sh 'sleep 5' // give it time to boot
                 sh 'curl -f http://localhost:5000 || exit 1'
             }
         }
@@ -34,15 +29,15 @@ pipeline {
 
     post {
         success {
-            mail to: 'your-email@example.com',
-                 subject: "✅ Jenkins CI/CD Success",
-                 body: "The Flask app was built and deployed successfully."
+            mail to: rushidon3389@gmail.com,
+                 subject: "✅ CI/CD Success: ${env.JOB_NAME}",
+                 body: "The pipeline completed successfully!"
         }
-
         failure {
-            mail to: 'your-email@example.com',
-                 subject: "❌ Jenkins CI/CD Failed",
-                 body: "Check the Jenkins logs for errors."
+            mail to: rushidon3389@gmail.com,
+                 subject: "❌ CI/CD Failed: ${env.JOB_NAME}",
+                 body: "Check Jenkins logs for errors."
         }
     }
 }
+
