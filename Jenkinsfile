@@ -1,10 +1,10 @@
 pipeline {
-    agent any
+    agent { label 'docker-agent' }
 
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/rushi033/hackthon213.git'
+                git branch: 'main', url: 'https://github.com/rushi033/hackthon213.git'
             }
         }
 
@@ -29,18 +29,15 @@ pipeline {
 
     post {
         success {
-            mail(
-                to: 'rushidon3389@gmail.com',
-                subject: "✅ CI/CD Success: ${env.JOB_NAME}",
-                body: "The pipeline completed successfully!"
-            )
+            mail to: 'rushi033@example.com',
+                 subject: "✅ CI/CD Success: ${env.JOB_NAME}",
+                 body: "The pipeline completed successfully!"
         }
         failure {
-            mail(
-                to: 'rushidon3389@gmail.com',
-                subject: "❌ CI/CD Failed: ${env.JOB_NAME}",
-                body: "Check Jenkins logs for errors."
-            )
+            mail to: 'rushi033@example.com',
+                 subject: "❌ CI/CD Failed: ${env.JOB_NAME}",
+                 body: "Check Jenkins logs for errors."
         }
     }
 }
+
